@@ -1,14 +1,14 @@
 module.exports = {
-  name: "",
-  aliases: [],
-  group: "",
-  description: "",
+  name: "ticket-channel",
+  aliases: ["tc"],
+  group: "ticket",
+  description: "set or remove the ticket channel.",
   clientPermissions: ["SEND_MESSAGES", 
 "EMBED_LINKS"],
-  memberPermissions: [],
-  examples: [],
+  memberPermissions: ["MANAGE_SERVER"],
+  examples: ["ticket-channel set #channel", "ticket-channel remove #channel"],
   cooldown: {
-    time: 5000,
+    time: 10000,
     message: ""
   },
   nsfw: false,

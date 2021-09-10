@@ -4,7 +4,7 @@ const {readdirSync} = require("fs")
 module.exports = {
   name: "help",
   aliases: ["h", "commands"],
-  group: "general",
+  group: "bot",
   description: "Help Command!",
   clientPermissions: ["SEND_MESSAGES", 
 "EMBED_LINKS"],
@@ -15,7 +15,8 @@ module.exports = {
   },
   nsfw: false,
   run: (client, message, args) => {
-   if(args[0]){
+   try{
+     if(args[0]){
      let commands = []    
 
 client.commands.registers.map(c => commands.push(c.name))
@@ -32,14 +33,24 @@ client.commands.registers.map(c => commands.push(c.name))
      .setDescription("Command information.")
      .addField(`**__Name__**`, `>>> • ${cmd.name}`)
      .addField(`**__Description__**`, cmd.description ? ">>> • " + cmd.description : ">>> Not Provided.")
-     .addField("**__Aliases__**", cmd.aliases.length > 1 ? ">>> • " + cmd.aliases.join(" , ") : ">>> • Not Provided")
+     .addField("**__Aliases__**", cmd.aliases.length ? ">>> • " + cmd.aliases.join(" , ") : ">>> • Not Provided")
      .addField("**__Group__**", cmd.group ? ">>> • " + cmd.group : ">>> • Not Provided.")
-     .addField("**__Examples__**", cmd.examples.length > 1 ? ">>> • " + cmd.examples.join("\n") : ">>> • Not Provided.")
-     .addField("**__Parameters__**", cmd.parameters.length > 1 ? cmd.parameters.join("\n") : ">>> • Not Provided.")
-    .addField("**__Guild Only__**", cmd.guildOnly)
-     .addField("**__Admin Only__**", cmd.adminOnly)
-     console.log(cmd)
-     message.channel.send({embeds:[embed]})
+     .addField("**__Examples__**", cmd.examples.length ? ">>> • " + cmd.examples.join("\n") : ">>> • Not Provided.")
+     .addField("**__Parameters__**", cmd.parameters.length ? cmd.parameters.join("\n") : ">>> • Not Provided.")
+     .addField("**__Guild Only__**", cmd.guildOnly ? ">>> • True." : ">>> • False.")
+     .addField("**__Admin Only__**", cmd.adminOnly ? ">>> • True." : ">>> • False.")
+      .addField("**__Owner Only__**", cmd.ownerOnly ? ">>> • True." : ">>> • False.")
+       
+      .addField("**__Nsfw__**", cmd.nsfw ? ">>> • True." : ">>> • False.")
+      .addField("**__CoolDown Time__**", ">>> • " + cmd.cooldown.time)
+      .addField("**__Bot Permissions__**", cmd.clientPermissions.length ? ">>> • " + cmd.clientPermissions.join(" , ") : ">>> • Not Provided.")
+       .addField("**__Member Permissions__**", cmd.permissions.length ? ">>> • " + cmd.permissions.join(" , ") : ">>> • Not Provided.")
+       .setTimestamp()   
+       .setColor("RANDOM")
+  
+.setImage("https://media.discordapp.net/attachments/885113922489815052/885540471533862962/20210909_203127.jpg")
+     
+       message.channel.send({embeds:[embed]})
    }else{
      let dirss = []
     const row = new MessageActionRow()
@@ -55,9 +66,9 @@ categories = [...new Set(client.commands.registers.map((cmd) => cmd.group))];
 for(const Dir of categories){
 let icon;
 let des;
-  if(Dir === "general"){
+  if(Dir === "bot"){
     icon = client.emoji.gears
-    des = "General Commands.."
+    des = "Bot Commands.."
   }
 row.components[0].options.push([
   {
@@ -94,6 +105,10 @@ interaction.reply({embeds: [new MessageEmbed().setTitle(dir + " Commands!").setC
     }
   })
     
-   }
+ }
+   } catch (e){
+     message.error("Something went wrong ;)....")
+     console.log(e)
+    }
   } 
-}
+} 
