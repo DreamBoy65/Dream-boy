@@ -1,6 +1,7 @@
 const { duration } = require('moment');
 const ms = require("ms")
-function CommandHandler(manager, message){
+const Schema = require("../models/GuildProfile")
+async function CommandHandler(manager, message){
 
   if (message.guild){
     if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
@@ -25,10 +26,16 @@ function CommandHandler(manager, message){
     return { executed: false, reason: 'PREFIX'};
   };
 
-  const [ name, ...args ] = message.content.slice(prefix.length)
-  .split(/ +/)
-  .filter(Boolean);
+  let data = await Schema.findOne({_id: message.guild?.id})
+  if(!data){
+   let Data = new Schema({_id: message.guild?.id})
+    await Data.save()
+    data = await Schema.findOne({_id: message.guild?.id})
+}
 
+  const args = message.content.slice((typeof prefix === "string" ? prefix.length : 0)).trim().split(/ +/g);
+	
+  let name = args.shift().toLowerCase()
   const command = manager.get(name);
 
   if (!command){
@@ -59,7 +66,7 @@ message.channel.send({embeds: [embed]})
 
     return { executed: false, reason: 'COOLDOWN' };
   } else {
-    command.run(message.client, message, args);
+    command.run(message.client, message, args, data);
   };
 
   return { executed: true };

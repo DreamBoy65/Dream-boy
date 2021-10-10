@@ -14,7 +14,7 @@ module.exports = (client, guild) => guilds.findById(guild.id, async (err, doc) =
   ==============================//====================================================
 */
 
-const owner = await client.users.fetch(guild.ownerID)
+const owner = await client.users.fetch(guild.ownerId)
   .then(owner => owner.tag)
   .catch(() => '<Unfetched Data>');
 

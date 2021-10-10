@@ -6,7 +6,8 @@ const emoji = require("../config/emojis")
     .setAuthor(this.author.username, this.author.displayAvatarURL())
     .setDescription(string)
     .setColor("RANDOM")
-       .setFooter(`${this.client.user.username}`, this.client.user.displayAvatarURL() )
+       .setFooter(`\©${new Date().getFullYear()} Dream`)
+    .setTimestamp()
     
     if(options.title){
       embed.setTitle(options.title)
@@ -21,5 +22,31 @@ const emoji = require("../config/emojis")
 
 
 Message.prototype.error = function(string){
-this.channel.send({embeds: [new MessageEmbed().setAuthor(this.author.username, this.author.displayAvatarURL()).setDescription(`${emoji.error}` + " | " + string)]})
+this.reply({embeds: [new MessageEmbed(). setAuthor(this.author.username, this.author.displayAvatarURL()).setDescription(`${emoji.error}` + " | " + string).setColor("RED").setFooter(`\©${new Date().getFullYear()} Dream`)
+    .setTimestamp()]})
+}
+
+Message.prototype.success = function(string){
+  this.reply({embeds: [
+    new MessageEmbed()
+  .setAuthor(this.author.username, this.author.displayAvatarURL())
+  .setDescription(`${emoji.success} | ${string}`)
+    .setColor("GREEN")
+    .setFooter(`\©${new Date().getFullYear()} Dream`)
+    .setTimestamp()
+  ]})
+}
+
+Message.prototype.load = async function(string, options = {}){
+  
+  this.reply({embeds: [
+    new MessageEmbed()
+  .setAuthor(this.author.username, this.author.displayAvatarURL())
+  .setDescription(`${emoji.load} | ${string}`)
+    .setColor("GREEN")
+  ]}).then(msg => {
+      setTimeout(() => {
+        msg.delete()
+      }, options.timeOut ? options.timeOut : 5000)
+  })
 }

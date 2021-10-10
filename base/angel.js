@@ -26,7 +26,8 @@ class Angel extends Client {
     this.commands = new CommandManager(this)
     this.guildProfiles = new GuildProfilesManager(this);
 this.emoji = require("../config/emojis")
-    
+
+    this.resolvers = require("../helpers/resolvers")
     this.database = null;
 
     if (settings.database?.enable === true){

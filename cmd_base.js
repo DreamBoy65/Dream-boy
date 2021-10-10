@@ -12,11 +12,11 @@ module.exports = {
     message: ""
   },
   nsfw: false,
-  run: (client, message, args) => {
+  run: async(client, message, args) => {
     try {
       
     } catch (e) {
-      message.error("Something went  wrong ;)..")
+      message.error("Something went  wrong ;)..\nError: " + e.message)
       console.log(e)
     }
   }

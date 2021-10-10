@@ -10,7 +10,7 @@ module.exports = async (client, guild) => {
   /*=====================================================
      Declare variables
   =====================================================*/
-  const owner = await client.users.fetch(guild.ownerID)
+  const owner = await client.users.fetch(guild.ownerId)
   .then(owner => owner.tag)
   .catch(() => '<Unfetched Data>');
 

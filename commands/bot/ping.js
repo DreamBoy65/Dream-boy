@@ -11,7 +11,7 @@ module.exports = {
     time: 5000
   },
   nsfw: false,
-  run: (client, message, args) => {
+  run: (client, message, args, data) => {
     message.sendE("PONG!")
   }
 }
