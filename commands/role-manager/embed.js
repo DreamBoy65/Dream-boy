@@ -74,12 +74,13 @@ module.exports = {
             thumbnail: {
               url: msg.embeds[0].thumbnail?.url
             },
+            timestamp: new Date()
           }]})
           message.success("Successfully edited description of embed")
         })
       } 
       else if(type === "image") {
-        let m = await message.channel.send("Send the image here that you want to set. ")
+        let m = await message.channel.send("Send the image here that you want to set.\nType cancel to cancel. ")
 
         let filter = (m) => {
      return m.member.id === message.author.id
@@ -110,6 +111,7 @@ module.exports = {
             thumbnail: {
               url: msg.embeds[0].thumbnail?.url
             },
+            timestamp: new Date()
           }]})
           message.success("Successfully edited image of embed")
         })
@@ -147,6 +149,7 @@ if(title?.toLowerCase()== "cancel"){
             thumbnail: {
               url: msg.embeds[0].thumbnail?.url
             },
+            timestamp: new Date()
           }]})
           message.success("Successfully edited title of embed")
         }) 
@@ -182,10 +185,11 @@ if(title?.toLowerCase()== "cancel"){
               text: msg.embeds[0].footer.text,
               icon_url: msg.embeds[0].footer.icon_url
             },
-           color: color ? color : msg.embeds[0].color ? msg.embeds[0].color : null,
+           color: color ? "#"+ color : msg.embeds[0].color ? msg.embeds[0].color : null,
             thumbnail: {
               url: msg.embeds[0].thumbnail?.url
             },
+            timestamp: new Date()
           }]})
           message.success("Successfully edited color of embed")
         })
@@ -222,6 +226,7 @@ if(title?.toLowerCase()== "cancel"){
             thumbnail: {
               url: image?.url
             },
+            timestamp: new Date()
           }]})
           message.success("Successfully edited thumbnail of embed")
         })
