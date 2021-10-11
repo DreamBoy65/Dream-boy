@@ -18,6 +18,7 @@ const Schema = require("../../models/roles")
     try {
       let name = args.join(" ")
 
+      if(!name) return message.error("Mention a category..   ")
       let data = await Schema.findOne({id: message.guild.id, category: name})
       
       if(data) return message.error("Umm- That category already exists..")

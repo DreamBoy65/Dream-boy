@@ -42,6 +42,8 @@ module.exports = {
 
       if(!msg.embeds[0]) return message.error("Thats not an embed. ")
 
+      if(!msg?.components[0]?.components[0]?.customId.startsWith("br:" || "dr")) return message.error("Thats not a self roles embed.")
+
       if(type === "description") {
         let m = await message.channel.send("Send the description here that you want to set. \ntype cancel to cancel")
 

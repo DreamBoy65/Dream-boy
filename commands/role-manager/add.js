@@ -17,10 +17,11 @@ module.exports = {
     try {
       let arg = args.join(" ").split(",")
 
+
       let category = `${arg[0]}` 
 
-      let role = message.guild.roles.cache.get((arg[1].match(/\d{17,19}/)||[])[0]) ||
-      message.guild.roles.cache.find(r => r.name === role);
+      let role = message.guild.roles.cache.get((arg[1]?.match(/\d{17,19}/)||[])[0]) ||
+      message.guild.roles.cache.find(r => r.name === arg[1]);
 
 
       let name = `${arg[2]}`
@@ -49,7 +50,7 @@ module.exports = {
 
         data.roles.push({
         name: name,
-        role: "br:"+ role.id,
+        role: role.id,
         emoji: reaction.emoji.id ? reaction.emoji.id : reaction.emoji.name
       })
 

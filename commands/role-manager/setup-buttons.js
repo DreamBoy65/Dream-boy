@@ -35,7 +35,7 @@ module.exports = {
 
     for(const role of data.roles){
         const button = new MessageButton()
-      .setCustomId(role.role)
+      .setCustomId("br:" + role.role)
       .setLabel(role.name)
       .setEmoji(role.emoji ? role.emoji : null)
       .setStyle("PRIMARY")
