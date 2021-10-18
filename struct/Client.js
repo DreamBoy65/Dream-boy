@@ -5,8 +5,9 @@ const { readdirSync } = require('fs');
 const { join } = require('path');
 const Mongoose = require("../struct/mongoose")
 const GuildProfilesManager = require(`../struct/guilds/ProfileManager`);
+const processEvents = require(`../util/processEvents`);
 
-class Angel extends Client {
+class Dream extends Client {
   constructor (settings = {}){
     super({
       intents: [
@@ -14,12 +15,12 @@ class Angel extends Client {
 				Intents.FLAGS.GUILD_MEMBERS,
 				Intents.FLAGS.GUILD_MESSAGES,
 				Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-				Intents.FLAGS.GUILD_VOICE_STATES,
 				Intents.FLAGS.DIRECT_MESSAGES
 			],
 			allowedMentions: {
 				parse: ["users"]
-			}
+			},
+      partials: ['MESSAGE', 'CHANNEL', 'REACTION']
     })
 
     this.logger = require("../helpers/logger")
@@ -38,7 +39,7 @@ this.emoji = require("../config/emojis")
       prefix: settings.prefix || '.',
       features: [],
       owners: [],
-      channels: { debug: null, uploads: null, logs: null },
+      channels: { debug: null, uploads: null, guildJoin: null, guildLeave: null, votes: null, feedback: null },
       websites: settings.websites
     };
 
@@ -63,6 +64,16 @@ this.emoji = require("../config/emojis")
     };
 
     /**
+     * Channel ID used by the bot to send feedback messages
+     * @type {?Snowflake}
+     */
+    if (typeof settings.channels?.feedback === 'string'){
+      this.config.channels.feedback = settings.channels.feedback;
+    } else {
+      // Do nothing...
+    };
+
+    /**
      * Channel ID used by the bot to upload files for some commands that necessitates uploads.
      * @type {?Snowflake}
      */
@@ -72,8 +83,8 @@ this.emoji = require("../config/emojis")
       // Do nothing...
     };
 
-    if (typeof settings.channels?.logs === 'string'){
-      this.config.channels.logs = settings.channels.logs;
+    if (typeof settings.channels?.guildJoin === 'string'){
+      this.config.channels.guildJoin = settings.channels.guildJoin;
     } else {
       // Do nothing...
     }
@@ -87,6 +98,13 @@ this.emoji = require("../config/emojis")
     } else {
       // Do nothing
     };
+   
+   if (typeof settings.channels?.guildLeave === 'string'){
+      this.config.channels.guildLeave = settings.channels.guildLeave;
+    } else {
+      // Do nothing...
+    };
+
 
 
  }
@@ -199,7 +217,29 @@ loadCommands(settings = {}){
     };
   };
 
+  //Load Events
+  listentoProcessEvents(events = [], config = {}){
+    if (!Array.isArray(events)){
+      return;
+    };
+
+    if (typeof config !== 'object'){
+      config = {};
+    };
+
+    for (const event of events){
+      process.on(event, (...args) => {
+        if (config.ignore && typeof config.ignore === 'boolean'){
+          return;
+        } else {
+          return processEvents(event, args, this);
+        };
+      });
+    };
+  };
+
+
 }
 
 
-module.exports = Angel;
+module.exports = Dream;

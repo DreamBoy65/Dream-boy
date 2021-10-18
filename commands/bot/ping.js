@@ -1,7 +1,8 @@
 module.exports = {
   name: "ping",
-  aliases: [],
+  aliases: ["pong"],
   group: "bot",
+  guildOnly: false,
   description: "replies with pong!",
   clientPermissions: ["SEND_MESSAGES", 
 "EMBED_LINKS"],

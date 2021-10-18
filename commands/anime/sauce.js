@@ -22,6 +22,7 @@ module.exports = {
     message: ""
   },
   nsfw: true,
+  guildOnly: false,
   run: async(client, message, args) => {
     try {
      let id = args[0]
@@ -47,7 +48,7 @@ module.exports = {
 
     const embed = new MessageEmbed()
     .setColor('GREY')
-    .setFooter(`Doujin Query | \©️${new Date().getFullYear()} Dream. `)
+    .setFooter(`Doujin Query | \©${new Date().getFullYear()} Dream. `)
     .setAuthor(pretty, null, `https://nhentai.net/g/${id}`)
     .setDescription(`**${book.title.english}**\n*${book.title.japanese}*`)
     .setThumbnail(api.getImageURL(cover))

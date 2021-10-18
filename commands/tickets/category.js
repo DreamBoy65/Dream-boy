@@ -12,6 +12,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: async(client, message, args, data) => {
     try {
       let option = args[0]

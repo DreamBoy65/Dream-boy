@@ -13,11 +13,12 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: async(client, message, args) => {
     try {
       const data = await Schema.find({id: message.guild.id})
 
-      if(!data) return message.error("No categories found ..")
+      if(!data.length) return message.error("No categories found ..")
 
       message.sendE(`Total: ${data.length}\n\n` + data.map((c, i) => `${i+1}• ${c.category} | ${c.roles.length}`).join("\n"))
  } catch (e) {

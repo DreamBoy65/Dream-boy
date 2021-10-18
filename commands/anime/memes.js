@@ -15,6 +15,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: false,
   run: async(client, message, args) => {
     try {
       let data = await meme()
@@ -82,6 +83,7 @@ function embed(data){
   .setTitle(`${data.title}`)
   .setImage(data.image)
   .setDescription(`>>> UpVotes: ${data.ups}\nDownVotes: ${data.downs}`)
+  .setFooter(`©${new Date().getFullYear()} Dream`)
   .setTimestamp()
   .setColor("RANDOM")
   .setURL(data.link)

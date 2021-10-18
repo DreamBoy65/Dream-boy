@@ -18,6 +18,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: false,
   run: async(client, message, args) => {
     try {
       let query = args.join(" ")
@@ -45,7 +46,7 @@ const elapsed = Date.now() - message.createdAt;
         .setFooter([
           `Search duration: ${Math.abs(elapsed / 1000).toFixed(2)} seconds`,
           `Page ${pages.size + 1} of ${data.results.slice(0,10).length}`,
-          `Manga Query with MAL | \©️${new Date().getFullYear()} Dream `
+          `Manga Query with MAL | \©${new Date().getFullYear()} Dream `
         ].join('\u2000\u2000•\u2000\u2000'))
         .setImage(res.image_url)
         .addFields([

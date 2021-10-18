@@ -13,6 +13,7 @@ module.exports = (client, guild) => guilds.findById(guild.id, async (err, doc) =
      Declare variables
   ==============================//====================================================
 */
+  guild.members.fetch()
 
 const owner = await client.users.fetch(guild.ownerId)
   .then(owner => owner.tag)
@@ -44,7 +45,7 @@ const owner = await client.users.fetch(guild.ownerId)
      Sends a notification to a log channel (if available)
      that the bot has joined a server
   ======================================================*/
-  await client.channels.cache.get(client.config.channels?.logs)?.createWebhook(guild.name, {
+  await client.channels.cache.get(client.config.channels?.guildJoin)?.createWebhook(guild.name, {
     avatar: guild.iconURL({ format: 'png', dynamic: true, size: 128 })
   })
   .then(webhook => Promise.all([webhook.send(message), webhook]))

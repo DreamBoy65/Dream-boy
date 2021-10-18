@@ -15,6 +15,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: async(client, message, args, data) => {
     try {
       let channels = data.tickets.opened.map((c, i) => {

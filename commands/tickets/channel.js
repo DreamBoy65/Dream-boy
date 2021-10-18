@@ -13,6 +13,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: async(client, message, args, data) => {
     console.log(args)
       try {

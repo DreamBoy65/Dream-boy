@@ -10,6 +10,7 @@ module.exports = {
   description: 'Generate a random anime quote. or quote by anime',
   parameters: [],
   examples: [ 'aniquote', 'aq', 'animequote', "aq death note"],
+  guildOnly: false,
   run: async ( client, message, args) => {
    try {
      let arg = args.join(" ")
@@ -73,7 +74,7 @@ async function random(){
       .addField(`*Quoted from ${anime}*`,`${quote}\n\n-*${name}*`)
       .setImage(image)
       .setTimestamp()
-      .setFooter(`Anime Quotes | \©️${new Date().getFullYear()} Dream`)
+      .setFooter(`Anime Quotes | \©${new Date().getFullYear()} Dream`)
 
   return embed
 }

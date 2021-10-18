@@ -1,6 +1,9 @@
 const { MessageActionRow, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const didYouMean = require("didyoumean")
 const {readdirSync} = require("fs")
+const Images = require("discord-images")
+const images = new Images.Client()
+
 module.exports = {
   name: "help",
   aliases: ["h", "commands"],
@@ -14,6 +17,7 @@ module.exports = {
     time: 5000
   },
   nsfw: false,
+  guildOnly: false,
   run: (client, message, args) => {
    try{
      if(args[0]){
@@ -82,9 +86,10 @@ row.components[0].options.push([
     
     const embed = new MessageEmbed()
     .setDescription("Which category u wanna see ?")
-    .setTitle("Angel- Help Command!")
+    .setTitle("Dream- Help Command!")
     .setColor("RANDOM")  
-    .setImage(client.user.displayAvatarURL({format: "png", dynamic: true}))
+    .setImage(images.dance())
+    .setFooter(`©${new Date(). getFullYear()} Dream.`)
     .setTimestamp()
     
     message.channel.send({embeds: [embed], components: [row]})

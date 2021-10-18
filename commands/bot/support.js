@@ -12,6 +12,7 @@ module.exports = {
     message: "Slow Down! Kiddo."
   },
   nsfw: false,
+  guildOnly: false,
   run: (client, message, args) => {
     
   }

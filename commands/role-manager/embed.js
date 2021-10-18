@@ -13,12 +13,13 @@ module.exports = {
   clientPermissions: ["SEND_MESSAGES", 
 "EMBED_LINKS"],
   memberPermissions: ["MANAGE_SERVER"],
-  examples: ["rr-edit-embed {message ID} {Type} {value}"],
+  examples: ["rr-edit-embed {channel} {message ID} {Type}"],
   cooldown: {
     time: 5000,
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: async(client, message, args) => {
     try {
       let channel = await client.resolvers.resolveChannel({
@@ -42,7 +43,12 @@ module.exports = {
 
       if(!msg.embeds[0]) return message.error("Thats not an embed. ")
 
-      if(!msg?.components[0]?.components[0]?.customId.startsWith("br:" || "dr")) return message.error("Thats not a self roles embed.")
+      if(msg?.components[0]?.components[0].type === "SELECT_MENU"){
+        if(!msg?.components[0]?.components[0].customId === "dr") return message.error("Thats not a self roles embed.")
+        
+      } else {
+        if(!msg?.components[0]?.components[0]?.customId.startsWith("br:") ) return message.error("Thats not a self roles embed.")
+      }
 
       if(type === "description") {
         let m = await message.channel.send("Send the description here that you want to set. \ntype cancel to cancel")
@@ -54,7 +60,7 @@ module.exports = {
         message.channel.awaitMessages({
           filter,
           max: 1,
-          time: 30000,
+          time: 60000,
           errors: ['time']
         }).then(async collected => {
           let des = collected.first().content

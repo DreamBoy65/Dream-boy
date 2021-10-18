@@ -5,7 +5,6 @@ module.exports = async (client, message) => {
     return;
   };
 
-
   const serverprefix = client.guildProfiles?.get(message.guild?.id)?.prefix || 'Not set'
 
   

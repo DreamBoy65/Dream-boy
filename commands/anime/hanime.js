@@ -25,6 +25,7 @@ module.exports = {
     'hanisearch dropout',
     'hs tamashii insert'
   ],
+  guildOnly: false,
   run: async (client, message, args) => {
 
     const query = args.join(' ');
@@ -52,7 +53,7 @@ module.exports = {
         ].join('\n\n'))
       .setFooter([
         `Page ${i + 1} of ${a.length}`,
-        `hanime.tv query | \©️${new Date().getFullYear()} Dream`
+        `hanime.tv query | \©${new Date().getFullYear()} Dream`
       ].join('\u2000\u2000•\u2000\u2000'))
       .addFields([
         { name: 'Released', value: moment(new Date(entry.released_at * 1000)).format('dddd, do MMMM YYYY'), inline: true },

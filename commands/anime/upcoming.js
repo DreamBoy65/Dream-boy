@@ -20,6 +20,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: false,
   run: async(client, message, args) => {
     try {
       let type = args[0]
@@ -63,7 +64,7 @@ module.exports = {
         .setFooter([
           `Upcoming Anime Query with MAL`,
           `Page ${index + 1} of ${descriptions.length}`,
-          `\©️${new Date().getFullYear()} Dream `
+          `\©${new Date().getFullYear()} Dream `
         ].join('\u2000|\u2000'))
       );
       index++;

@@ -5,7 +5,7 @@ function check(message, command){
   
 
   if (command.guildOnly){
-    if (message.channel.type === 'dm'){
+    if (message.channel.type === 'DM'){
       reasons.push([
         '**Command is unavailable on DM**',
         'This command can only be used inside servers.'
@@ -15,8 +15,7 @@ function check(message, command){
     };
   }
 
-  if (message.channel.type !== 'dm'){
-    if (command.ownerOnly){
+  if (command.ownerOnly){
       if (!message.client.owners.includes(message.author.id)){
         reasons.push([
           '**Limited to Devs**',
@@ -25,9 +24,11 @@ function check(message, command){
       } else {
         // Do nothing..
       };
-};
+    };
+
+  if (message.guild){
     if (command.adminOnly){
-      if (!message.member.hasPermission('ADMINISTRATOR')){
+      if (!message.member.permissions.has('ADMINISTRATOR')){
         reasons.push([
           '**Limited to Admins**',
           'This command can only be used by server administrators.'
@@ -75,14 +76,13 @@ function check(message, command){
     };
   };
 
+  }
   
-
   const embed = new MessageEmbed()
   .setAuthor('Command Execution Blocked!')
   .setColor('ORANGE')
   .setDescription(`Reasons:\n\n${reasons.map(reason => '• ' + reason).join('\n')}`);
 
   return { accept: !reasons.length, embed }
-}
 }
 module.exports = { check };

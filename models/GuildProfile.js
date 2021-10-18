@@ -27,5 +27,9 @@ module.exports = model('server_profiles', Schema({
       type: Array,
       default: []
     }
+  },
+  selfRoles: {
+    type: Array,
+    default: []
   }
 }))

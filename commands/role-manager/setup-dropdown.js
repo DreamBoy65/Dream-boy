@@ -14,6 +14,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: async(client, message, args) => {
     try {
       const channel = await client.resolvers.resolveChannel({
@@ -35,7 +36,7 @@ module.exports = {
      const dropdownsOptions = [];
 
 		for (const role of data.roles) {
-			console.log(role.name)
+			
       dropdownsOptions.push({ emoji: role.emoji, label: role.name, value: role.role, description: `click this to get the ${message.guild.roles.cache.get(role.role).name} role!`.substr(0, 50) });                   
 		}
 
@@ -52,8 +53,7 @@ module.exports = {
     .setTimestamp()      
 
  client.channels.cache.get(channel.id).send({embeds: [embed], components: [row]})
-
-      console.log(msg.components[0].components[0])
+      
     } catch (e) {
       message.error("Something went  wrong ;)..\nError: " + e.message)
       console.log(e)

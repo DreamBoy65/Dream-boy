@@ -10,12 +10,12 @@ async function CommandHandler(manager, message){
       // Do nothing..
     };
   };
-
+  
   const serverprefix = message.client.guildProfiles?.get(message.guild?.id)?.prefix || null;
   let prefix;
 
-  if (message.content.startsWith('angel')){
-    prefix = 'angel'
+  if (message.content.startsWith('dream')){
+    prefix = 'dream'
   } else if (message.content.startsWith(message.client.config.prefix)){
     prefix = message.client.config.prefix;
   } else if (serverprefix && message.content.startsWith(serverprefix)){
@@ -26,12 +26,16 @@ async function CommandHandler(manager, message){
     return { executed: false, reason: 'PREFIX'};
   };
 
-  let data = await Schema.findOne({_id: message.guild?.id})
+  let data;
+
+  if(message.guild){
+    data = await Schema.findOne({_id: message.guild?.id})
   if(!data){
    let Data = new Schema({_id: message.guild?.id})
     await Data.save()
     data = await Schema.findOne({_id: message.guild?.id})
 }
+  }
 
   const args = message.content.slice((typeof prefix === "string" ? prefix.length : 0)).trim().split(/ +/g);
 	
@@ -49,12 +53,18 @@ async function CommandHandler(manager, message){
   };
 
   if (!permission_granted){
-    if(message.guild){
-message.channel.send({embeds: [embed]})
-}
+    if (message.guild){
+      message.channel.send(
+        message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS')
+        ? {embeds: [embed]} : embed.description
+      );
+    } else {
+      message.channel.send({embeds: [embed]});
+    };
     return { executed: false, reason: 'PERMISSION' };
+  
   };
-
+  
   const { accept: cooldown_accepted, timeLeft } = command.testCooldown(message, command);
 
   if (!cooldown_accepted){

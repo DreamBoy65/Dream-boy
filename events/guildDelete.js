@@ -32,7 +32,7 @@ module.exports = async (client, guild) => {
      Sends a notification to a log channel (if available)
      that the bot has left a server
   ======================================================*/
-  await client.channels.cache.get(client.config.channels?.logs)?.createWebhook(guild.name, {
+  await client.channels.cache.get(client.config.channels?.guildLeave)?.createWebhook(guild.name, {
     avatar: guild.iconURL({ format: 'png', dynamic: true, size: 128 })
   })
   .then(webhook => Promise.all([webhook.send(message), webhook]))

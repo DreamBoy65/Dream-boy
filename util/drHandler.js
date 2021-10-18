@@ -6,7 +6,7 @@ module.exports = {
 		if (fetchMem) member = interaction.guild.members.cache.get(interaction.member.id);
 		await member.fetch(true);
 
-      if(!interaction.customId.startsWith("dr")) return;
+      if(interaction.customId !== "dr") return;
 
     let role = interaction.values[0]
 

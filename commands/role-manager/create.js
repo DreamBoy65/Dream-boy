@@ -14,6 +14,7 @@ const Schema = require("../../models/roles")
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: async(client, message, args) => {
     try {
       let name = args.join(" ")

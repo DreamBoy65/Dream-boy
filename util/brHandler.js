@@ -7,6 +7,8 @@ module.exports = {
 		if (fetchMem) member = interaction.guild.members.cache.get(interaction.member.id);
 		await member.fetch(true);
 
+      if(!interaction.customId.startsWith("br:")) return;
+
 		const role = interaction.customId.split(':')[1]
 
     if (interaction.member.roles.cache.has(role)) {

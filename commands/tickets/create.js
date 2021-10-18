@@ -14,6 +14,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: true,
   run: (client, message, args, data) => {
     try {
       message.guild.channels.create(`Ticket-${data.tickets.uses}`,{

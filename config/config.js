@@ -19,10 +19,12 @@ const settings = {
   prefix: '.',
 
   channels: { 
-    debug: '885156123974459424', 
-    votes: '', 
+    debug: '897855850566279268', 
+    votes: '898122983309185064', 
     uploads: '', 
-    logs: '885156192769421324' 
+    guildJoin: '897855850188783744',
+    guildLeave: "897855850188783745",
+    feedback: "898122720221470730"
   },
 
 

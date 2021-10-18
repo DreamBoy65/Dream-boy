@@ -14,6 +14,7 @@ module.exports = {
     message: ""
   },
   nsfw: false,
+  guildOnly: false,
   run: async(client, message, args) => {
     try {
       let anime = args.join(" ")
@@ -55,8 +56,8 @@ if(!data){
         .addField("Genres:", data.genres.join(" , ") || "unknown")
         .addField("Rank:", data.ranked || "unknown")
         .addField("Popularity:", data.popularity || "unknown")
-      .setFooter(message.author.username , message.author.displayAvatarURL())
-    
+      .setFooter(`©${new Date().getFullYear()} Dream`, message.author.displayAvatarURL())
+   .setTimestamp()  
     message.channel.send({embeds: [embed]})
     } catch (e) {
       message.error("Something went  wrong ;)..\nError: " + e.message)

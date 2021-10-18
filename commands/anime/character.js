@@ -22,6 +22,7 @@ module.exports = {
     'char Rio Futaba',
     'c Kaede Azusagawa'
   ],
+  guildOnly: false,
   run: async (client, message, args) => {
 const badge = `${client.emoji.mal} [MyAnimeList](https://myanimelist.net \'Homepage\')`;
 
@@ -61,7 +62,8 @@ const badge = `${client.emoji.mal} [MyAnimeList](https://myanimelist.net \'Homep
     .addField("AnimeoGraphy:", res.animeography?.map(c => `**Name: [${c.name}](${c.url})\nRole: ${c.role}**`).slice(0, 5).join("\n\n"))
     .addField("MangaoGraphy:", res.mangaography?.map(c => `**Name: [${c.name}](${c.url})\nRole: ${c.role}**`).slice(0, 5).join("\n\n"))
     .addField("Voice Actors:", res.voice_actors?.map(c => `**Name: [${c.name}](${c.url})\nLanguage: ${c.language}**`).slice(0, 5).join("\n\n"))
-    .setFooter("Seach by Mal, Dream-Boy-")
+    .setFooter(`Seach by Mal | ©${new Date().getFullYear()} Dream `)
+      .setTimestamp()
     .setColor("RANDOM")
     
     message.channel.send({embeds: [embed]})
