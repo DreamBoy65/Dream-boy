@@ -31,5 +31,39 @@ module.exports = model('server_profiles', Schema({
   selfRoles: {
     type: Array,
     default: []
+  },
+  suggestion: {
+    channel: {
+      type: String,
+      default: null
+    }
+  },
+  custom: {
+    commands: {
+      type: Array,
+      default: []
+    },
+    slash: {
+      type: Array,
+      default: []
+    },
+    response: {
+      type: Array,
+      default: []
+    }
+  },
+  logs: {
+    case: {
+      type: Number,
+      default: 0
+    },
+    log: {
+      type: String,
+      default: ""
+    },
+    dream: {
+      type: String,
+      default: ""
+    }
   }
 }))

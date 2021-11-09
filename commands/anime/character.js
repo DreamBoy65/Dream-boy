@@ -13,7 +13,7 @@ module.exports = {
   },
   clientPermissions: [ 'EMBED_LINKS' ],
   group: 'anime',
-  description: `Searches for a character in [MyAnimeList](https://myanimelist.net "Homepage"), or Mai\'s character information if no query is provided.`,
+  description: `Searches for a character in [MyAnimeList](https://myanimelist.net "Homepage"), or Deku\'s character information if no query is provided.`,
   parameters: [ 'Search Query' ],
   examples: [
     'character',
@@ -56,16 +56,16 @@ const badge = `${client.emoji.mal} [MyAnimeList](https://myanimelist.net \'Homep
 
     const embed = new MessageEmbed()
     .setTitle(`${res.name} | ${res.name_kanji}`)
-    .setDescription(res.about)
+    .setDescription(res.about ? res.about : "??¿¿")
     .setImage(res.image_url)
 .setThumbnail("https://cdn.discordapp.com/emojis/893793345707593759.gif?v=1")
     .addField("AnimeoGraphy:", res.animeography?.map(c => `**Name: [${c.name}](${c.url})\nRole: ${c.role}**`).slice(0, 5).join("\n\n"))
     .addField("MangaoGraphy:", res.mangaography?.map(c => `**Name: [${c.name}](${c.url})\nRole: ${c.role}**`).slice(0, 5).join("\n\n"))
     .addField("Voice Actors:", res.voice_actors?.map(c => `**Name: [${c.name}](${c.url})\nLanguage: ${c.language}**`).slice(0, 5).join("\n\n"))
-    .setFooter(`Seach by Mal | ©${new Date().getFullYear()} Dream `)
+    .setFooter(`Search by Mal | ©${new Date().getFullYear()} Dream `)
       .setTimestamp()
     .setColor("RANDOM")
     
     message.channel.send({embeds: [embed]})
   }
-};
+}

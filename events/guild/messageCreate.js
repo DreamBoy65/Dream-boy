@@ -1,3 +1,5 @@
+let Schema = require("../../models/GuildProfile")
+  
 module.exports = async (client, message) => {
 
   
@@ -5,8 +7,24 @@ module.exports = async (client, message) => {
     return;
   };
 
-  const serverprefix = client.guildProfiles?.get(message.guild?.id)?.prefix || 'Not set'
+  let data;
 
+  if(message.guild){
+    
+    data = await Schema.findOne({_id: message.guild?.id})
+    
+  if(!data){
+    
+   let Data = new Schema({_id: message.guild?.id})
+    
+    await Data.save()
+    
+    data = await Schema.findOne({_id: message.guild?.id})
+  } 
+}
+  
+
+  const serverprefix = data?.prefix || "Not set."
   
 
   if(message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))){

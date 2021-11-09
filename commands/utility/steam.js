@@ -72,7 +72,7 @@ module.exports = {
       ])
     ]});
     } catch (e) {
-      message.error("Something went  wrong ;)..\nError: " + e.message)
+      message.error("Something went  wrong ;)..\nError: " + e.message + "\nContact my developers to fix it")
       console.log(e)
     }
   }

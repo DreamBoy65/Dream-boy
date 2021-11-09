@@ -1,9 +1,9 @@
-const Schema = require("../models/GuildProfile")
+const Schema = require("../../models/GuildProfile")
 const {MessageActionRow, MessageEmbed, MessageButton} = require("discord.js")
 
 module.exports = {
   handleTicketSystem: async function(client, interaction) {
-    let data = await Schema.findOne({_id : interaction.message.guildId})  
+    let data = await Schema.findOne({_id : interaction.guildId})  
 if(!data) return;
   
 if(interaction.isButton()){

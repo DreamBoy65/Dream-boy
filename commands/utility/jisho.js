@@ -54,7 +54,7 @@ module.exports = {
         await pagesCollector(msg, message.author, 60000, pages)
       })
     } catch (e) {
-      message.error("Something went  wrong ;)..\nError: " + e.message)
+      message.error("Something went  wrong ;)..\nError: " + e.message + "\nContact my developers to fix it")
       console.log(e)
     }
   }

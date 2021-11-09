@@ -28,7 +28,7 @@ const isHentai = data.genres.some(x => x === 'Hentai');
    
 if(!data){
   return message.error("data doesn't exist.\nTry: different name or season.")
-} else if(isHentai){
+} else if(isHentai && message.guild && !message.channel.nsfw){
   return message.error("Data is nsfw.")
 }
 

@@ -3,3 +3,6 @@ node_modules/
 
 # Package 
 package-lock.json
+
+# ReplNix
+replit.nix

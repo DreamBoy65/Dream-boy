@@ -34,7 +34,7 @@ module.exports = {
 
       if(!res.length) return message.error("No Images found for your subreddit")
 
-      if (!message.channel.nsfw){
+      if (!message.channel.nsfw && message.guild){
       res = res.filter(m => !m.data.over_18)
     };
       
@@ -59,7 +59,7 @@ module.exports = {
       })
     
     } catch (e) {
-      message.error("Something went  wrong ;)..\nError: " + e.message)
+      message.error("Something went  wrong ;)..\nError: " + e.message + "\nContact my developers to fix it")
       console.log(e)
     }
   }

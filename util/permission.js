@@ -16,7 +16,7 @@ function check(message, command){
   }
 
   if (command.ownerOnly){
-      if (!message.client.owners.includes(message.author.id)){
+      if (!message.client.config.owners.includes(message.author.id)){
         reasons.push([
           '**Limited to Devs**',
           'This command can only be used by my developers.'

@@ -1,6 +1,6 @@
 const { duration } = require('moment');
 const ms = require("ms")
-const Schema = require("../models/GuildProfile")
+const Schema = require("../../models/GuildProfile")
 async function CommandHandler(manager, message){
 
   if (message.guild){
@@ -11,7 +11,25 @@ async function CommandHandler(manager, message){
     };
   };
   
-  const serverprefix = message.client.guildProfiles?.get(message.guild?.id)?.prefix || null;
+  let data;
+
+  if(message.guild){
+    data = await Schema.findOne({_id: message.guild?.id})
+  if(!data){
+   let Data = new Schema({_id: message.guild?.id})
+    await Data.save()
+    data = await Schema.findOne({_id: message.guild?.id})
+}
+  }
+
+  let serverprefix = data?.prefix
+
+  let reso = data?.custom.response.find(c => c.trigger === message.content)
+
+  if(reso) {
+    message.reply(reso.res)
+  }
+    
   let prefix;
 
   if (message.content.startsWith('dream')){
@@ -26,21 +44,17 @@ async function CommandHandler(manager, message){
     return { executed: false, reason: 'PREFIX'};
   };
 
-  let data;
-
-  if(message.guild){
-    data = await Schema.findOne({_id: message.guild?.id})
-  if(!data){
-   let Data = new Schema({_id: message.guild?.id})
-    await Data.save()
-    data = await Schema.findOne({_id: message.guild?.id})
-}
-  }
-
   const args = message.content.slice((typeof prefix === "string" ? prefix.length : 0)).trim().split(/ +/g);
 	
   let name = args.shift().toLowerCase()
+  
   const command = manager.get(name);
+
+  let res = data?.custom.commands.find(c => c.trigger === name)
+
+  if(res) {
+    message.reply(res.res)
+  }
 
   if (!command){
     return { executed: false, reason: 'NOT_FOUND' };

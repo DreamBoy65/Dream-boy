@@ -37,7 +37,7 @@ module.exports = {
 
       let datas;
 
-      if(!message.channel.nsfw){
+      if(!message.channel.nsfw && message.guild){
         datas = res.result.map(r => r).filter(r => !r.anilist.isAdult)
      } else {
         datas = res

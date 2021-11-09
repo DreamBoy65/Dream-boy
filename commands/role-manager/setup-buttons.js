@@ -58,6 +58,7 @@ module.exports = {
       client.channels.cache.get(channel.id).send({embeds: [embed], components: rows})
 
       message.success("Successfully created self roles.")
+      
     } catch (e) {
       message.error("Something went  wrong ;)..\nError: " + e.message)
       console.log(e)

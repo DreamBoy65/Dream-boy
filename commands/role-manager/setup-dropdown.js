@@ -8,7 +8,7 @@ module.exports = {
   clientPermissions: ["SEND_MESSAGES", 
 "EMBED_LINKS"],
   memberPermissions: ["MANAGE_SERVER"],
-  examples: [],
+  examples: ["rr-setup-dropdown #roles pings min/max"],
   cooldown: {
     time: 5000,
     message: ""
@@ -24,6 +24,8 @@ module.exports = {
     })
 
       const category = args[1]
+      const min = args[2]
+      const max = args[3]
       
       if(!channel) return message.error("Mention the channel where you want to setup roles.")
 
@@ -40,7 +42,22 @@ module.exports = {
       dropdownsOptions.push({ emoji: role.emoji, label: role.name, value: role.role, description: `click this to get the ${message.guild.roles.cache.get(role.role).name} role!`.substr(0, 50) });                   
 		}
 
-		const dropdown = new MessageSelectMenu().setCustomId('dr');
+		const dropdown = new MessageSelectMenu().setCustomId('dr')
+
+      if(min) {
+        if(isNaN(min)) return message.error("Minimum value should be a number!")
+        if(min < 1) return message.error("Minimum value should be more than 1 or equal to one!")
+        if(min > data.roles.length) return message.error("Minimum value should be less than roles length. ")
+        dropdown.setMinValues(parseInt(min))
+      }
+
+      if(max) {
+        if(isNaN(max)) return message.error("Maximum value should be a number!")
+        if(max < 1) return message.error("Maximum value should be more than 1 or equal to one!")
+
+        if(max > data.roles.length) return message.error("Maximum value should be less than roles length. ")
+        dropdown.setMaxValues(parseInt(max))
+      }
 
 
       dropdown.options = dropdownsOptions;
@@ -53,6 +70,8 @@ module.exports = {
     .setTimestamp()      
 
  client.channels.cache.get(channel.id).send({embeds: [embed], components: [row]})
+
+      message.success("Successfully created self roles.")
       
     } catch (e) {
       message.error("Something went  wrong ;)..\nError: " + e.message)

@@ -1,10 +1,9 @@
-const {Client, Collection, Intents} = require("discord.js")
+const { Client, Collection, Intents } = require("discord.js")
 const CommandManager = require(`../struct/commands/Manager`);
 const consoleUtil = require(`../util/console`);
 const { readdirSync } = require('fs');
 const { join } = require('path');
 const Mongoose = require("../struct/mongoose")
-const GuildProfilesManager = require(`../struct/guilds/ProfileManager`);
 const processEvents = require(`../util/processEvents`);
 
 class Dream extends Client {
@@ -15,7 +14,8 @@ class Dream extends Client {
 				Intents.FLAGS.GUILD_MEMBERS,
 				Intents.FLAGS.GUILD_MESSAGES,
 				Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-				Intents.FLAGS.DIRECT_MESSAGES
+				Intents.FLAGS.DIRECT_MESSAGES,
+        Intents.FLAGS.GUILD_PRESENCES
 			],
 			allowedMentions: {
 				parse: ["users"]
@@ -25,11 +25,11 @@ class Dream extends Client {
 
     this.logger = require("../helpers/logger")
     this.commands = new CommandManager(this)
-    this.guildProfiles = new GuildProfilesManager(this);
 this.emoji = require("../config/emojis")
-
+    this.settings = require("../config/config")
     this.resolvers = require("../helpers/resolvers")
     this.database = null;
+    require("../helpers/extenders")
 
     if (settings.database?.enable === true){
       this.database = new Mongoose(this, settings.database);
@@ -198,24 +198,24 @@ loadCommands(settings = {}){
     let files = null;
 
     try {
-      files = readdirSync(join(process.cwd(), settings.parent)).filter(f => f.split('.').pop() === 'js');
-    } catch {
-      if (log) {
-        consoleUtil.error(`DIR_NOT_FOUND: Cannot resolve path '${join(process.cwd(),settings.parent)}'`, 'dir');
-      } else {
-        // Do nothing...
-      };
-      if (check()) { return; };
-    };
+      const load = (dirs) => {
+      const events = readdirSync(`./${settings.parent}/${dirs}/`).filter((d) => d.endsWith("js"));
 
-    for (const event of files){
-      this.on(event.split('.')[0], require(join(process.cwd(), settings.parent, event)).bind(null, this));
-    };
+  for (const file of events) {
+      const evt = require(`../events/${dirs}/${file}`);
+      const eName = file.split(".")[0];
+      this.on(eName, evt.bind(null, this));
+  }
+        consoleUtil.success(`Loaded ${events.length} events of ${dirs}.`)
+ };
 
-    if (log){
-      consoleUtil.success(`Loaded ${files.length} event files!`)
-    };
-  };
+     settings.dirs?.forEach(x => load(x))
+
+    } catch (e) {
+     consoleUtil.warn("Error while loading events. " + e)
+   }
+      
+  }
 
   //Load Events
   listentoProcessEvents(events = [], config = {}){
@@ -237,8 +237,6 @@ loadCommands(settings = {}){
       });
     };
   };
-
-
 }
 
 

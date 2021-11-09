@@ -35,7 +35,6 @@ const owner = await client.users.fetch(guild.ownerId)
     if (!doc){
       doc = await new guilds({ _id: guild.id }).save();
     };
-    client.guildProfiles.set(guild.id, doc);
   };
   //====================================================//
 

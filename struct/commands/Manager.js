@@ -7,7 +7,7 @@ const CooldownManager = require(`./Cooldown`);
 const Command = require(`./Base`);
 
 const consoleUtil = require(`${process.cwd()}/util/console`);
-const _handle = require(`${process.cwd()}/util/handle`);
+const _handle = require(`${process.cwd()}/util/handlers/cmdHandler`);
 
 module.exports = class CommandManager{
   constructor(client){

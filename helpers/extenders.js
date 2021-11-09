@@ -1,4 +1,4 @@
-const {MessageEmbed, Message} = require("discord.js")
+const { MessageEmbed, Message, Client } = require("discord.js")
 const emoji = require("../config/emojis")
 
   Message.prototype.sendE = function(string, options = {}){
@@ -12,17 +12,20 @@ const emoji = require("../config/emojis")
     if(options.title){
       embed.setTitle(options.title)
     }
+    if(options.image){
+      embed.setImage(options.image)
+    }
     if(options.edit){
       this.edit({embeds: [embed]})
     }else{
-      this.channel.send({embeds: [embed]})
+      this.channel.send({embeds: [embed], components: options.row ? [options.row] : []})
     }
   }
 
 
 
 Message.prototype.error = function(string){
-this.reply({embeds: [new MessageEmbed(). setAuthor(this.author.username, this.author.displayAvatarURL()).setDescription(`${emoji.error}` + " | " + string).setColor("RED").setFooter(`\©${new Date().getFullYear()} Dream`)
+this.reply({embeds: [new MessageEmbed(). setAuthor(this.author.username, this.author.displayAvatarURL()).setDescription(`${emoji.no}` + " | " + string).setColor("RED").setFooter(`\©${new Date().getFullYear()} Dream`)
     .setTimestamp()]})
 }
 
@@ -30,7 +33,7 @@ Message.prototype.success = function(string){
   this.reply({embeds: [
     new MessageEmbed()
   .setAuthor(this.author.username, this.author.displayAvatarURL())
-  .setDescription(`${emoji.success} | ${string}`)
+  .setDescription(`${emoji.yes} | ${string}`)
     .setColor("GREEN")
     .setFooter(`\©${new Date().getFullYear()} Dream`)
     .setTimestamp()

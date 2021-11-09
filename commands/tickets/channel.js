@@ -67,7 +67,7 @@ let msg = await client.channels.cache.get(channel.id).send({embeds: [embed], com
         message.error("Option must be 'set' or 'remove'")
       }
     } catch (e) {
-      message.error("Something went  wrong ;)..\nError: " + e.message)
+      message.error("Something went  wrong ;)..\nError: " + e.message + "\nContact my developers to fix it")
       console.log(e)
     }
   }

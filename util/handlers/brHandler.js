@@ -1,4 +1,4 @@
-const Schema = require("../models/roles")
+const Schema = require("../../models/roles")
 module.exports = {
   handleBr: async function(client, interaction) {
     if(interaction.isButton()){

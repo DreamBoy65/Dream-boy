@@ -3,6 +3,9 @@ const didYouMean = require("didyoumean")
 const {readdirSync} = require("fs")
 const Images = require("discord-images")
 const images = new Images.Client()
+const Pages = require("../../helpers/paginate")
+const { pagesCollector } = require("../../helpers/collector")
+const _ = require("lodash")
 
 module.exports = {
   name: "help",
@@ -55,7 +58,9 @@ client.commands.registers.map(c => commands.push(c.name))
 .setImage("https://media.discordapp.net/attachments/885113922489815052/885540471533862962/20210909_203127.jpg")
      
        message.channel.send({embeds:[embed]})
-   }else{
+       
+   } else {
+       
      let dirss = []
     const row = new MessageActionRow()
 			.addComponents(
@@ -74,14 +79,46 @@ let des;
     icon = client.emoji.gears
     des = "Bot Commands.."
   }
-row.components[0].options.push([
+  if(Dir === "anime"){
+    icon = client.emoji.anime
+    des = "Anime Commands.."
+  }
+  if(Dir === "moderation"){
+    icon = client.emoji.moderator
+    des = "Moderation Commands.."
+  }
+  if(Dir === "setup"){
+    icon = client.emoji.setup
+    des = "Setup Commands.."
+  }
+  if(Dir === "ticket"){
+    icon = client.emoji.ticket
+    des = "ticket Commands.."
+  }
+  if(Dir === "custom"){
+    icon = client.emoji.custom
+    des = "Custom Commands.."
+  }
+  if(Dir === "roles"){
+    icon = client.emoji.roles
+    des = "Roles Commands.."
+  }
+  if(Dir === "owner"){
+    icon = client.emoji.king
+    des = "King Commands.."
+  }
+  if(Dir === "utility"){
+    icon = client.emoji.utility
+    des = "Utility Commands.."
+  }
+  row.components[0].options.push([
   {
     label: `${Dir.toUpperCase()}`,
     description: `${des ? des : "no description."}`,
     value: `${Dir}`,
     emoji: `${icon ? icon : client.emoji.question}`
   }
-])
+  ])
 }
     
     const embed = new MessageEmbed()
@@ -92,24 +129,49 @@ row.components[0].options.push([
     .setFooter(`©${new Date(). getFullYear()} Dream.`)
     .setTimestamp()
     
-    message.channel.send({embeds: [embed], components: [row]})
+    message.channel.send({embeds: [embed], components: [row]}).then(msg => {
+      let collector = msg.createMessageComponentCollector({componentType: "SELECT_MENU", time: 60000})
 
+      collector.on("collect", i => {
+        
+        if(i.user.id !== message.author.id) return i.reply({content: "create your own help msg *baka*", ephemeral: true})
 
-client.on("interactionCreate", interaction => {
-  
-  if(interaction.componentType === "SELECT_MENU"){
-    
-let dir = interaction.values.map(c => { return c}).join(" ")
+        let dir = i.values.map(c => { return c}).join(" ")
       
-    let tr = client.commands.registers.map(c => c).find(c => c.group === dir)
+        let tr = client.commands.registers.map(c => c).find(c => c.group === dir)
 
-    if(tr){
- let commands = client.commands.registers.filter(c => c.group === dir)
-interaction.reply({embeds: [new MessageEmbed().setTitle(dir + " Commands!").setColor("RANDOM").setThumbnail(client.user.displayAvatarURL()).setTimestamp().setDescription(`${commands.map(c => c.name).join(" • ")}`)], ephemeral: true})
-}
-    }
-  })
-    
+        let commands = client.commands.registers.filter(c => c.group === dir)
+
+        let I = 1
+
+        let cmds = _.chunk(commands.map((c) => {
+          
+          return `${I++}• ${c.name} | ${client.commands.get(c.name).description}`
+        }), 10)
+        
+        let pages = new Pages() 
+          
+        for(let c of cmds){
+          pages.add(
+            new MessageEmbed()
+            .setTitle("Dream- Help Command!")
+            .setColor("RANDOM")  
+            .setThumbnail(images.dance())
+            .setFooter(`©${new Date(). getFullYear()} Dream.`)
+            .setTimestamp()
+            .setDescription(c.join("\n\n"))
+          )
+        }
+
+        msg.edit({embeds: [pages.firstPage], components: [row]}).then(m => {
+          pagesCollector(m, message.author, 60000, pages)
+        })
+      })
+
+      collector.on("end", () => {
+        msg.edit({components: []})
+      })
+    })
  }
    } catch (e){
      message.error("Something went wrong ;)....")
